@@ -1,6 +1,6 @@
 #include "include/skiplist.h"
 #include <iostream>
-#include <vector>
+#include <vector> 
 
 int main()
 {
@@ -14,4 +14,12 @@ int main()
     }
     SkipList<int> skip = SkipList<int>(size,vals);
     skip.visualize();
+    int keyToSearch;
+    while(1){
+        std::cout<<"enter key to search \n";
+        std::cin>>keyToSearch;
+        skip.search(keyToSearch);
+        
+
+    }
 }

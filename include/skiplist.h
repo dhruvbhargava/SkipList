@@ -68,6 +68,7 @@ public:
             while (i <= level)
             {
                 newNode = new Node<KeyType>(keys[keyIndex], ValType::VAL);
+                newNode->right = topRight;
                 levelTemps[i]->right = newNode;
                 levelTemps[i] = newNode;
                 if (i != 0)
@@ -75,6 +76,8 @@ public:
                 i++;
             }
         }
+
+        
         // levelTemps[_height - 1]->right = topRight;
     }
     void search(KeyType val)
@@ -83,24 +86,29 @@ public:
         Node<KeyType> *tempSupereme = topLeft->right;
         Node<KeyType> *temp = tempSupereme;
         int indexCounter = 0;
+
+        //bool found = false;
+        int found = -1;
         while (i >= 0)
         {
 
-            if (temp == NULL)
+            //Need to handle empty list
+            if (temp == NULL || temp->valType==ValType::PLUSINFINITY)
             {
                 std::cout << "bhag bsdk" << std::endl;
                 break;
             }
-            std::cout << temp->val << " ";
-            if (temp->right->val <= val)
+            //std::cout << temp->val << " ";
+            if (temp->val == val)
+            {
+                found = indexCounter;
+                break;
+            }
+
+            else if (temp->right->valType==ValType::VAL && temp->right->val <= val)
             {
                 temp = temp->right;
                 indexCounter += pow(2, i);
-            }
-            else if (temp->val == val)
-            {
-                std::cout << "index hai::" << indexCounter << std::endl;
-                break;
             }
             else
             {
@@ -108,6 +116,12 @@ public:
                 i--;
                 std::cout << std::endl;
             }
+        }
+        if(found==-1){
+            std::cout << "Not found" << std::endl;
+        }
+        else{
+            std::cout << "Found at: " << found << std::endl; 
         }
     }
 
@@ -120,7 +134,7 @@ public:
         {
 
             temp = tempSupereme;
-            while (temp->right != NULL)
+            while (temp->right->valType != ValType::PLUSINFINITY)
             {
                 std::cout << temp->val << std::string(i == 0 ? 1 : i % 2 == 0 and i != 0 ? 3 * (i) + 1 : 3 * i, '-');
                 temp = temp->right;
